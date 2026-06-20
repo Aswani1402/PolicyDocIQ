@@ -1,0 +1,68 @@
+.venv/
+venv/
+env/
+__pycache__/
+**/__pycache__/
+**pycache**/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# environment/secrets
+.env
+.env.*
+*.env
+secrets/
+*.key
+*.pem
+
+# IDE
+.idea/
+.vscode/
+
+# frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Python/package caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+pip-wheel-metadata/
+*.egg-info/
+
+# local model/cache files
+huggingface/
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+
+# generated outputs and local vector DB
+outputs/qdrant_db/
+outputs/documents/
+outputs/tables/
+outputs/*.csv
+outputs/*.json
+outputs/*.md
+outputs/documents_registry.json
+!outputs/.gitkeep
+
+# uploaded/user files
+data/uploaded_documents/*
+!data/uploaded_documents/.gitkeep
+data/*.pdf
+!data/.gitkeep
+
+# logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,16 @@
+docling
+pymupdf
+pdfplumber
+pandas
+numpy
+tqdm
+python-dotenv
+
+sentence-transformers
+qdrant-client
+fastembed
+
+fastapi
+uvicorn
+pydantic
+python-multipart

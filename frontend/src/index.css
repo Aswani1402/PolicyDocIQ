@@ -1,0 +1,69 @@
+:root {
+  --navy-950: #0b1f31;
+  --navy-900: #102b42;
+  --navy-800: #173a55;
+  --navy-700: #28506a;
+  --teal-50: #eff9f8;
+  --teal-500: #168b91;
+  --teal-600: #117980;
+  --teal-700: #0e686f;
+  --green-600: #15946b;
+  --slate-50: #f8fafb;
+  --slate-100: #f0f4f6;
+  --slate-200: #dfe6eb;
+  --slate-300: #cbd5dc;
+  --slate-500: #6c7c89;
+  --slate-600: #526574;
+  --slate-700: #3a5061;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --shadow-sm: 0 1px 2px rgba(15, 35, 55, 0.03);
+  --shadow-md: 0 12px 34px rgba(20, 42, 60, 0.065);
+
+  color: var(--navy-950);
+  background:
+    radial-gradient(circle at 75% 0%, rgba(50, 157, 158, 0.075), transparent 28rem),
+    #f8fafc;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(22, 139, 145, 0.22);
+  outline-offset: 2px;
+}
+
+::selection {
+  color: var(--navy-950);
+  background: #c8eeeb;
+}
