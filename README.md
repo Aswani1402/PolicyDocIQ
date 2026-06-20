@@ -1,8 +1,41 @@
-# PolicyDocIQ
+# 📄 PolicyDocIQ
 
 **PolicyDocIQ** is a local, citation-backed document intelligence application for policy and economic PDF reports. It allows users to upload PDF reports, extract page-aware text, generate embeddings, store document chunks in Qdrant, retrieve relevant evidence, optionally rerank retrieved chunks, and answer user questions with page-level citations.
 
 The project is designed for IMF Article IV reports and similar long-form economic policy documents. It focuses on grounded retrieval, explainable evidence, citations, multi-document support, and table extraction.
+
+---
+
+## Preview
+
+### Dashboard
+
+![PolicyDocIQ dashboard](screenshots_frontend/01_home_dashboard.png)
+
+### Document Upload and Indexed Documents
+
+![Upload and indexed documents](screenshots_frontend/02_upload_and_indexed_documents.png)
+
+### Ask the Report with Reranking
+
+
+![Ask report with reranker](screenshots_frontend/03_ask_report_reranker.png)
+
+### Citation-Backed Answer
+
+![Answer with citations](screenshots_frontend/04_answer_with_citations.png)
+
+### Retrieved Evidence
+
+![Retrieved evidence](screenshots_frontend/05_retrieved_evidence.png)
+
+### Table Intelligence
+
+![Table intelligence](screenshots_frontend/07_table_search_results.png)
+
+### Table Search Results
+
+![Table search results](screenshots_frontend/07_table_search_results.png)
 
 ---
 
@@ -154,18 +187,34 @@ policydociq/
 │   ├── __init__.py
 │   └── api.py
 │
-├── src/
-│   ├── __init__.py
-│   ├── pdf_loader.py
-│   ├── chunker.py
-│   ├── embedder.py
-│   ├── retriever.py
-│   ├── qa_engine.py
-│   ├── reranker.py
-│   ├── table_extractor.py
-│   ├── document_manager.py
-│   ├── evaluator.py
-│   └── utils.py
+├── config/
+│
+├── data/
+│   ├── .gitkeep
+│   └── uploaded_documents/
+│       └── .gitkeep
+│
+├── docs/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── index.css
+│   ├── package.json
+│   └── vite.config.js
+│
+├── outputs/
+│   └── .gitkeep
+│
+├── screenshots_frontend/
+│   ├── 01_home_dashboard.png
+│   ├── 02_upload_and_indexed_documents.png
+│   ├── 03_ask_report_reranker.png
+│   ├── 04_answer_with_citations.png
+│   ├── 05_retrieved_evidence.png
+│   ├── 06_table_intelligence.png
+│   └── 07_table_search_results.png
 │
 ├── scripts/
 │   ├── __init__.py
@@ -179,25 +228,25 @@ policydociq/
 │   ├── 08_compare_reranker_eval.py
 │   └── 09_extract_tables_default.py
 │
-├── data/
-│   ├── .gitkeep
-│   └── uploaded_documents/
-│       └── .gitkeep
+├── src/
+│   ├── __init__.py
+│   ├── pdf_loader.py
+│   ├── chunker.py
+│   ├── embedder.py
+│   ├── retriever.py
+│   ├── qa_engine.py
+│   ├── reranker.py
+│   ├── table_extractor.py
+│   ├── document_manager.py
+│   ├── evaluator.py
+│   └── utils.py
 │
-├── outputs/
-│   └── .gitkeep
-│
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   └── index.css
-│   ├── package.json
-│   └── vite.config.js
+├── tests/
 │
 ├── Dockerfile
 ├── docker-compose.yml
 ├── .dockerignore
+├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
@@ -209,8 +258,8 @@ policydociq/
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
-cd policydociq
+git clone https://github.com/Aswani1402/PolicyDocIQ.git
+cd PolicyDocIQ
 ```
 
 ### 2. Create and Activate Virtual Environment
@@ -249,7 +298,7 @@ python-multipart
 pdfplumber
 ```
 
-`docling` is present as an optional dependency path in `src/pdf_loader.py`, but the default extraction workflow currently uses PyMuPDF with `run_docling=False`.
+The default extraction workflow uses PyMuPDF. Docling or OCR-based extraction is not required for the current working version.
 
 ---
 
@@ -261,7 +310,7 @@ Start FastAPI:
 python -m uvicorn app.api:app --host 127.0.0.1 --port 8000
 ```
 
-Do **not** use `--reload` with Qdrant local mode. Qdrant local storage should be accessed by only one backend/script process at a time.
+Do **not** use `--reload` with Qdrant local mode. Qdrant local storage should be accessed by only one backend or script process at a time.
 
 Open Swagger UI:
 
@@ -297,13 +346,15 @@ http://localhost:5173
 
 ## Default Qatar Report Workflow
 
-PDF files are intentionally not committed to GitHub. Place an IMF Article IV PDF in data/ and update the path or upload through the frontend.
+PDF files are intentionally not committed to GitHub.
 
-The default scripts expect this local PDF path unless you update `PDF_PATH` in `src/config.py`:
+To use the default scripts, place an IMF Article IV PDF inside the `data/` folder. The default scripts were tested locally with:
 
 ```text
 data/Qatar_Test_Document.pdf
 ```
+
+If your PDF filename is different, update the PDF path inside the relevant script before running extraction or indexing.
 
 The default Qdrant collection is:
 
@@ -459,7 +510,7 @@ outputs/tables/qatar_default/tables.json
 outputs/tables/qatar_default/tables.csv
 ```
 
-The table API endpoints read table metadata from `outputs/documents_registry.json`, so they are intended for uploaded/indexed documents. The frontend table panel also works with selected uploaded documents rather than the default Qatar report button.
+The table API endpoints read table metadata from `outputs/documents_registry.json`, so they are intended for uploaded and indexed documents. The frontend table panel also works with selected uploaded documents.
 
 Table API endpoints:
 
@@ -670,8 +721,13 @@ Planned improvements include:
 Built PolicyDocIQ, a citation-backed document intelligence RAG system for IMF Article IV reports using PyMuPDF PDF ingestion, page-aware chunking, BGE-M3 embeddings, Qdrant retrieval, cross-encoder reranking, FastAPI APIs, React frontend, multi-document PDF upload, and pdfplumber-based table extraction.
 ```
 
+Short version:
 
+```text
+Developed a citation-backed RAG system for economic policy PDFs with document upload, BGE-M3 embeddings, Qdrant retrieval, reranking, FastAPI, React, and table extraction.
+```
 
+---
 
 ## Project Summary for Recruiters and Reviewers
 
@@ -713,7 +769,16 @@ The system includes:
 
 The completed version supports the full local RAG workflow:
 
-PDF upload or default PDF selection → text extraction → chunking → embedding → Qdrant indexing → retrieval → reranking → citation-backed answer display.
+```text
+PDF upload or default PDF selection
+-> text extraction
+-> chunking
+-> embedding
+-> Qdrant indexing
+-> retrieval
+-> reranking
+-> citation-backed answer display
+```
 
 The frontend shows backend status, indexed document information, upload controls, active document selection, question answering, citations, retrieved evidence, reranker controls, and table intelligence features.
 
@@ -733,22 +798,11 @@ This project demonstrates practical AI engineering skills beyond a simple notebo
 
 It shows that I can build and integrate a working AI application using modern open-source tools, test it locally, expose it through APIs, and present it through a usable frontend. The project is especially relevant for AI/ML, RAG, GenAI application development, Python backend, and document intelligence roles.
 
-
-
-
-
-
-Short version:
-
-```text
-Developed a citation-backed RAG system for economic policy PDFs with document upload, BGE-M3 embeddings, Qdrant retrieval, reranking, FastAPI, React, and table extraction.
-```
-
 ---
 
 ## Author
 
-Aswani A J 
+Aswani A J
 B.Tech Artificial Intelligence
 Amrita Vishwa Vidyapeetham
 
@@ -757,5 +811,3 @@ Amrita Vishwa Vidyapeetham
 ## License
 
 This project is for academic, learning, and portfolio purposes. Add a license file if the repository is made public.
-#   P o l i c y D o c I Q  
- 
