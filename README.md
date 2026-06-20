@@ -757,3 +757,5 @@ Amrita Vishwa Vidyapeetham
 ## License
 
 This project is for academic, learning, and portfolio purposes. Add a license file if the repository is made public.
+#   P o l i c y D o c I Q  
+ 
